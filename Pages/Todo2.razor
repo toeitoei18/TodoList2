@@ -1,0 +1,38 @@
+﻿@page "/todo2"
+
+<PageTitle>สิ่งที่ต้องทำ</PageTitle>  
+
+<h1>รายการที่ต้องทำ (@todos.Count(todo => !todo.IsDone))</h1> 
+        
+
+<ul>
+    @foreach (var todo2 in todos) //วนลูป TodoList
+    {
+        <li>
+            <input type="checkbox" @bind="todo2.IsDone"/>
+            <input @bind="todo2.Title"/>
+            <button @onclick="() => RemoveTodo(todo2)">ลบรายการ</button>
+        </li> //แสดงข้อความ TodoList ที่โดนเพิ่มเข้ามาใน Checkbox กรณีลบออกจะหายไปจาก Checkbox
+    }
+</ul>
+
+<input placeholder="กรอกรายการที่ต้องทำ" @bind="newtodo"/>
+<button @onclick="AddTodo">เพิ่มรายการ</button>
+
+@code {
+    private List<TodoItem> todos = new(); //โลจิก todo ส่งไปที่ todos บรรทัด 7
+    private string? newtodo;  //โลจิก ค่าว่าง newtodo ช่องให้กรอก บรรทัด13
+
+    private void AddTodo()                  //โลจิก AddTodo แสดงข้อมูลที่เพิ่มเข้ามาบนหน้าจอ บรรทัด 14
+    {
+        if (!string.IsNullOrWhiteSpace(newtodo))            
+        {
+            todos.Add(new TodoItem {Title = newtodo});
+            newtodo = string.Empty;
+        }                                               
+    }
+    private void RemoveTodo(TodoItem todo) //โลจิกลบรายการออกเมื่อกดปุ่มบรรทัด 14
+    {
+    todos.Remove(todo);
+    }
+}
